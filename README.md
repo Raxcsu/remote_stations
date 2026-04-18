@@ -50,7 +50,7 @@ LoRa E220                LCD 16x2                 API REST
 ## Instalación
 
 ```bash
-git clone https://github.com/<usuario>/sistema-remoto.git
+git clone https://github.com/Raxcsu/remote_stations.git
 cd sistema-remoto
 ```
 
