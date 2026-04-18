@@ -80,7 +80,13 @@ Accede a `http://localhost:5000`.
 
 ### Modo producción (con Arduino)
 
-Configura el puerto y el nodo asignado en `data/scripts/lora_reader.py`:
+Primero identifica el puerto COM del Arduino conectado:
+
+```bash
+.venv\Scripts\python -c "import serial.tools.list_ports; [print(f'{p.device} — {p.description}') for p in serial.tools.list_ports.comports()]"
+```
+
+Busca una línea con `CH340` o `Arduino` en la descripción, por ejemplo `COM5 — USB-SERIAL CH340`. Luego configura ese puerto en `data/scripts/lora_reader.py`:
 
 ```python
 PORT               = "COM14"          # puerto COM del Arduino receptor
