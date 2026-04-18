@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de Monitoreo — BLUME x IMARPE</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+    <img src="assets/img/logo_blume.png" alt="BLUME" />
+    <div class="header-center">
+        <h1>Sistema de Monitoreo Acuático</h1>
+        <div class="status-bar">
+            <span id="statusDot" class="dot dot--connecting"></span>
+            <span id="statusText">Conectando...</span>
+            <span class="sep">·</span>
+            <span id="activeCount">0 nodos activos</span>
+        </div>
+    </div>
+    <img src="assets/img/logo_imarpe.png" alt="IMARPE" />
+</header>
+
+<div class="main-layout">
+
+    <div id="map"></div>
+
+    <aside class="side-panel">
+        <div class="side-section">
+            <h2 class="side-title">Nodos</h2>
+            <div id="nodeList" class="node-list"></div>
+        </div>
+
+        <div id="nodeDetail" class="node-detail hidden">
+            <div class="detail-header">
+                <span id="detailName" class="detail-name"></span>
+                <span id="detailStatus" class="detail-status"></span>
+            </div>
+            <div class="temp-hero">
+                <span id="detailTemp">--</span>
+                <span class="temp-unit">°C</span>
+            </div>
+            <div class="metrics-grid">
+                <div class="metric">
+                    <span class="metric-label">Δ 1h</span>
+                    <span id="m-d1h" class="metric-value">--</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Δ 1h %</span>
+                    <span id="m-d1h-pct" class="metric-value">--</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Δ 24h</span>
+                    <span id="m-d24h" class="metric-value">--</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Δ 24h %</span>
+                    <span id="m-d24h-pct" class="metric-value">--</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Tendencia</span>
+                    <span id="m-trend" class="metric-value">--</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Pred. +1h</span>
+                    <span id="m-pred" class="metric-value">--</span>
+                </div>
+                <div class="metric metric--wide">
+                    <span class="metric-label">Anomalía</span>
+                    <span id="m-anomaly" class="metric-value">--</span>
+                </div>
+                <div class="metric metric--wide">
+                    <span class="metric-label">Última lectura</span>
+                    <span id="m-ts" class="metric-value metric-value--small">--</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+</div>
+
+<section id="historyPanel" class="history-panel hidden">
+    <div class="history-header">
+        <span id="historyTitle">Histórico</span>
+        <div class="history-controls">
+            <button class="btn-range active" data-horas="6">6h</button>
+            <button class="btn-range" data-horas="12">12h</button>
+            <button class="btn-range" data-horas="24">24h</button>
+        </div>
+    </div>
+    <div class="history-body">
+        <div class="history-chart-wrap">
+            <canvas id="histChart"></canvas>
+        </div>
+        <div class="history-table-wrap">
+            <table id="histTable">
+                <thead><tr><th>Fecha</th><th>Hora</th><th>°C</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

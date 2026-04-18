@@ -1,0 +1,342 @@
+/* ── Reset & base ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --bg:        #04111f;
+    --surface:   #071e34;
+    --surface2:  #091d2f;
+    --border:    #103354;
+    --border2:   #1a4a70;
+    --accent:    #00cfff;
+    --accent2:   #0066cc;
+    --green:     #00e096;
+    --text:      #cce8ff;
+    --muted:     #4d7fa0;
+    --up:        #00e096;
+    --down:      #ff3d5e;
+    --warn:      #ffb000;
+    --offline:   #2a4a63;
+    --mono:      'Consolas', 'Courier New', monospace;
+    --header-h:  58px;
+    --side-w:    390px;
+    --hist-h:    270px;
+}
+
+html, body {
+    height: 100vh;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    font-size: 15px;
+}
+body { display: flex; flex-direction: column; }
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+header {
+    height: var(--header-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border2);
+    flex-shrink: 0;
+}
+header img { height: 34px; opacity: 0.9; }
+.header-center { text-align: center; }
+.header-center h1 {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+.status-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    margin-top: 4px;
+    font-size: 0.7rem;
+    color: var(--muted);
+    font-family: var(--mono);
+    letter-spacing: 0.04em;
+}
+.sep { color: var(--border2); }
+
+/* ── Main layout ─────────────────────────────────────────────────────────── */
+.main-layout {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* ── Map ─────────────────────────────────────────────────────────────────── */
+#map { flex: 2; min-width: 0; }
+
+/* ── Side panel ──────────────────────────────────────────────────────────── */
+.side-panel {
+    flex: 1;
+    min-width: 300px;
+    max-width: 420px;
+    background: var(--surface);
+    border-left: 1px solid var(--border2);
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+.side-section {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+.side-title {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--accent);
+    padding: 0.6rem 1rem 0.45rem;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+/* ── Node list ───────────────────────────────────────────────────────────── */
+.node-list { overflow-y: auto; flex: 1; min-height: 0; }
+
+.node-card {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.55rem 1rem;
+    border-bottom: 1px solid var(--border);
+    border-left: 3px solid transparent;
+    cursor: pointer;
+    transition: background 0.12s, border-color 0.12s;
+}
+.node-card:hover  { background: rgba(0,207,255,0.04); }
+.node-card.active { background: rgba(0,207,255,0.07); border-left-color: var(--accent); }
+
+.node-indicator { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.node-indicator.activo  { background: var(--green); animation: pulse 2s infinite; }
+.node-indicator.alerta  { background: var(--green); animation: pulse 2s infinite; }
+.node-indicator.offline { background: var(--offline); }
+
+.node-info  { flex: 1; min-width: 0; }
+.node-name  { font-size: 0.87rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text); letter-spacing: 0.02em; }
+.node-sub   { font-size: 0.73rem; color: var(--muted); margin-top: 1px; font-family: var(--mono); }
+
+.node-temp { font-size: 1.05rem; font-weight: 700; font-family: var(--mono); color: var(--accent); white-space: nowrap; }
+.node-temp.offline { color: var(--offline); font-size: 0.8rem; }
+
+/* ── Node detail ─────────────────────────────────────────────────────────── */
+.node-detail {
+    border-top: 1px solid var(--border2);
+    padding: 0.75rem 1rem;
+    flex-shrink: 0;
+    background: var(--surface2);
+    overflow-y: auto;
+}
+.detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.4rem;
+}
+.detail-name   { font-weight: 700; font-size: 0.88rem; color: var(--text); letter-spacing: 0.05em; text-transform: uppercase; }
+.detail-status {
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-family: var(--mono);
+}
+.detail-status.activo  { background: rgba(0,224,150,0.15);  color: var(--green); border: 1px solid rgba(0,224,150,0.3); }
+.detail-status.alerta  { background: rgba(255,176,0,0.15);  color: var(--warn);  border: 1px solid rgba(255,176,0,0.3); }
+.detail-status.offline { background: rgba(42,74,99,0.4);    color: var(--muted); border: 1px solid var(--border); }
+
+.temp-hero {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    font-family: var(--mono);
+    line-height: 1;
+    margin-bottom: 0.7rem;
+    letter-spacing: -0.02em;
+}
+.temp-unit { font-size: 1.1rem; font-weight: 400; color: var(--muted); margin-left: 2px; }
+
+.metrics-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; }
+.metric {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.45rem 0.65rem;
+}
+.metric--wide { grid-column: span 2; }
+.metric-label {
+    display: block;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    margin-bottom: 3px;
+}
+.metric-value { font-size: 0.9rem; font-weight: 600; font-family: var(--mono); color: var(--text); }
+.metric-value--small { font-size: 0.76rem; }
+.metric-value.up   { color: var(--up); }
+.metric-value.down { color: var(--down); }
+.metric-value.warn { color: var(--warn); }
+
+/* ── History panel ───────────────────────────────────────────────────────── */
+.history-panel {
+    height: var(--hist-h);
+    flex-shrink: 0;
+    background: var(--surface2);
+    border-top: 1px solid var(--border2);
+    display: flex;
+    flex-direction: column;
+}
+.history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.4rem 1rem;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+    font-size: 0.62rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+}
+.history-controls { display: flex; gap: 0.35rem; }
+.btn-range {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.66rem;
+    font-family: var(--mono);
+    padding: 2px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.12s;
+    letter-spacing: 0.04em;
+}
+.btn-range:hover, .btn-range.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(0,207,255,0.08);
+}
+.history-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+.history-chart-wrap { flex: 1; padding: 0.5rem 0.75rem; min-width: 0; }
+.history-table-wrap {
+    width: 240px;
+    overflow-y: auto;
+    border-left: 1px solid var(--border);
+}
+.history-table-wrap table { width: 100%; border-collapse: collapse; }
+.history-table-wrap th, .history-table-wrap td {
+    padding: 0.3rem 0.5rem;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    white-space: nowrap;
+}
+.history-table-wrap th {
+    color: var(--accent);
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    position: sticky;
+    top: 0;
+    background: var(--surface);
+}
+
+/* ── Leaflet popup ───────────────────────────────────────────────────────── */
+.leaflet-popup-content-wrapper {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 5px;
+    color: var(--text);
+    box-shadow: 0 6px 28px rgba(0,0,0,0.7), 0 0 16px rgba(0,207,255,0.1);
+    padding: 0;
+}
+.leaflet-popup-content { margin: 0; }
+.leaflet-popup-tip { background: var(--surface); }
+
+.popup-name {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.55rem 0.85rem 0;
+}
+.popup-temp {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: var(--accent);
+    font-family: var(--mono);
+    letter-spacing: -0.02em;
+    padding: 0.1rem 0.85rem 0;
+    line-height: 1.1;
+}
+.popup-meta {
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-family: var(--mono);
+    padding: 0.25rem 0.85rem;
+}
+.popup-ts {
+    display: flex;
+    gap: 0.5rem;
+    border-top: 1px solid var(--border);
+    padding-top: 0.35rem;
+    padding-bottom: 0.55rem;
+}
+.popup-status { font-size: 0.65rem; letter-spacing: 0.08em; }
+.popup-status.activo  { color: var(--green); }
+.popup-status.alerta  { color: var(--warn); }
+.popup-status.offline { color: var(--offline); }
+
+/* ── Leaflet tooltip (permanent labels) ──────────────────────────────────── */
+.leaflet-tooltip {
+    background: rgba(4,17,31,0.85);
+    border: 1px solid var(--border2);
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-family: var(--mono);
+    letter-spacing: 0.04em;
+    padding: 2px 7px;
+    border-radius: 2px;
+    white-space: nowrap;
+    box-shadow: none;
+}
+.leaflet-tooltip::before { display: none; }
+
+/* ── Dot animation ───────────────────────────────────────────────────────── */
+.dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.dot--connecting { background: var(--muted);  animation: pulse 1.5s infinite; }
+.dot--live       { background: var(--green);  animation: pulse 2s infinite; }
+.dot--waiting    { background: var(--warn); }
+.dot--error      { background: var(--down); }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.2; } }
+
+/* ── Scrollbar ───────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+/* ── Utilities ───────────────────────────────────────────────────────────── */
+.hidden { display: none !important; }

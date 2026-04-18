@@ -1,0 +1,30 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Base de datos
+data/temperatura.db
+data/logs/
+
+# Arduino
+arduino/**/*.hex
+arduino/**/*.elf
+arduino/**/*.map
+build/
+
+# IDE
+.vscode/
+.idea/
+*.suo
+*.user
+.theia/
+
+# Documentos internos
+docs/*.pdf
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
