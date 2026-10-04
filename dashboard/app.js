@@ -225,7 +225,6 @@ function updateDetail(dev) {
     setMetric('m-d24h',     fmtDelta(dev.delta_24h),      deltaClass(dev.delta_24h));
     setMetric('m-d24h-pct', fmtPct(dev.delta_24h_pct),   deltaClass(dev.delta_24h));
     setMetric('m-trend',    trendArrow(dev.tendencia) + ' ' + (dev.tendencia || '--'), '');
-    setMetric('m-pred',     dev.prediccion_1h !== null ? `${dev.prediccion_1h}°C` : '--', '');
     setMetric('m-anomaly',  dev.anomalia || '--', dev.anomalia === 'anomalía' ? 'warn' : '');
     setMetric('m-ts',       dev.timestamp || '--', '');
 }

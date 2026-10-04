@@ -10,7 +10,7 @@ python -m venv .venv
 if errorlevel 1 ( echo ERROR: Python no encontrado. & pause & exit /b 1 )
 
 echo [2/3] Instalando dependencias...
-.venv\Scripts\pip install -q flask pyserial matplotlib PyYAML future iso8601
+.venv\Scripts\pip install -q -r requirements.txt
 if errorlevel 1 ( echo ERROR: Fallo al instalar dependencias. & pause & exit /b 1 )
 
 echo [3/3] Inicializando base de datos...
