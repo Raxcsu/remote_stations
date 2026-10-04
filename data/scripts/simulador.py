@@ -18,24 +18,24 @@ def insertar(conn, dispositivo_id, timestamp, temperatura):
     conn.commit()
 
 
-conn = get_db()
-init_schema(conn)
-ids = registrar_dispositivos(conn)
+def generar(conn_factory=get_db, iteraciones=None, intervalo=5):
+    conn = conn_factory()
+    init_schema(conn)
+    ids = registrar_dispositivos(conn)
 
-estados = {
-    nombre: {
-        'base': random.uniform(18.5, 23.5),
-        'fase': random.uniform(0, 2 * math.pi),
-        'ruido': 0.0,
+    estados = {
+        nombre: {
+            'base': random.uniform(18.5, 23.5),
+            'fase': random.uniform(0, 2 * math.pi),
+            'ruido': 0.0,
+        }
+        for nombre in ids
     }
-    for nombre in ids
-}
 
-print(f"Simulador iniciado — {len(ids)} nodos. Ctrl+C para detener.\n")
+    print(f"Simulador iniciado — {len(ids)} nodos.")
 
-tick = 0
-try:
-    while True:
+    tick = 0
+    while iteraciones is None or tick < iteraciones:
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         for nombre, dev_id in ids.items():
             e = estados[nombre]
@@ -47,8 +47,12 @@ try:
 
         tick += 1
         print()
-        time.sleep(5)
-except KeyboardInterrupt:
-    print("\nSimulador detenido.")
-finally:
-    conn.close()
+        time.sleep(intervalo)
+
+
+if __name__ == '__main__':
+    print("Ctrl+C para detener.\n")
+    try:
+        generar()
+    except KeyboardInterrupt:
+        print("\nSimulador detenido.")

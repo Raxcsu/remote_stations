@@ -1,17 +1,25 @@
 import os
+import sys
+import threading
 from datetime import datetime, timedelta
 from flask import Flask, jsonify, request, send_from_directory
 
 from db import get_db, init_schema
 from stats import FORMATO_TS, compute_stats
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 app = Flask(__name__)
 
-DASHBOARD_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'dashboard')
+DASHBOARD_DIR = os.path.join(BASE_DIR, 'dashboard')
 
 _conn = get_db()
 init_schema(_conn)
 _conn.close()
+
+if os.environ.get('DEMO_MODE') == '1':
+    sys.path.insert(0, os.path.join(BASE_DIR, 'data', 'scripts'))
+    from simulador import generar
+    threading.Thread(target=generar, daemon=True).start()
 
 
 @app.route('/')
